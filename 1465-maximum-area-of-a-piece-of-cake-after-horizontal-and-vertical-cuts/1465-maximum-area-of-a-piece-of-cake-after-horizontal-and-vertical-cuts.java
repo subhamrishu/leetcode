@@ -24,7 +24,11 @@ class Solution {
         for (int i =1; i<=lenVcuts; i++){
             max_width = Math.max(verticalCuts[i] - verticalCuts[i-1], max_width);
         }
+        max_height = max_height % MODULO;
+        max_width = max_width % MODULO;
+        long res = (long)max_height*max_width%MODULO;
+        return (int)res;
         // System.out.println(max_height+ " "+ max_width+"\n");
-        return modMultiply(max_height, max_width);
+        // return modMultiply(max_height, max_width);
     }
 }
