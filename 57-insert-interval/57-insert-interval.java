@@ -1,7 +1,22 @@
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> solution = new ArrayList();
+        int i = 0, len = intervals.length-1;
+        while (i <= len && intervals[i][1] < newInterval[0]){
+            solution.add(intervals[i++]);
+        }
+        while (i<=len && intervals[i][0] <= newInterval[1]){
+            newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+            newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+            i++;
+        }
+        solution.add(newInterval);
+        while (i<=len)
+            solution.add(intervals[i++]);
         
-        int len = intervals.length;
+       return solution.toArray(new int[solution.size()][]);
+        /*
+         int len = intervals.length;
         if (len < 1)
             return new int[][] {newInterval};
         int end = Math.max(intervals[len-1][1], newInterval[1]);
@@ -32,5 +47,6 @@ class Solution {
             i+=1;
         }
         return solution.toArray(new int[solution.size()][]);
+        */
     }
 }
