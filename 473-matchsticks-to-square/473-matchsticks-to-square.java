@@ -31,7 +31,7 @@ class Solution {
         if (curr == matchsticks.length)
             return allSidesEqual(sides);
         for(int i = 0; i < 4; i++){
-            if (sides[i] + matchsticks[curr] > side) continue;
+            if (sides[i] + matchsticks[curr] > side || (i > 0 && sides[i] == sides[i - 1])) continue;
             sides[i] += matchsticks[curr];
             if(helper(sides, matchsticks, curr+1)) return true;
             sides[i] -= matchsticks[curr];
