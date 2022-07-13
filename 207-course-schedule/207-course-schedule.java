@@ -1,49 +1,39 @@
 class Solution {
-    int dfs(List<List<Integer>> adjList, int currCourse, boolean[] visited, boolean[] explored){
-        if (explored[currCourse])
-            return 0;
-        if (visited[currCourse])
-            return 1;
-        if (adjList.get(currCourse).size() == 0){
-            visited[currCourse] = true;
-            return 1;
-        }
-        explored[currCourse] = true;
-        int t = 0;
-        for (int i = 0; i < adjList.get(currCourse).size();i++){
-            t = dfs(adjList, adjList.get(currCourse).get(i), visited, explored);
-            
-            if (t == 1){
-                // System.out.println("Removing:" + adjList.get(currCourse).get(i));
-                adjList.get(currCourse).remove(i);
-                i -=1;
+     List<List<Integer>> buildGraph(int n, int[][] edges, int[] degree){
+         List<List<Integer>> adjList = new ArrayList();
+         for (int i = 0; i < n; i++){
+             adjList.add(new ArrayList());
+         }
+         for(int i = 0; i < edges.length; i++){
+             adjList.get(edges[i][1]).add(edges[i][0]);
+             degree[edges[i][0]]+=1;
+         }
+         return adjList;
+     }
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int outDegree[] = new int[numCourses];
+        int canbeTaken = 0;
+        List<List<Integer>> graph = buildGraph(numCourses, prerequisites, outDegree);
+        
+        Queue<Integer> q = new LinkedList();
+        for (int i = 0; i < numCourses; i++){
+            if (outDegree[i] == 0){
+                q.offer(i);
             }
         }
-        explored[currCourse] = false;
-        visited[currCourse] = true;
-        return t;
-    }
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
-        List<List<Integer>> adjList = new ArrayList();
-        for (int i = 0; i < numCourses; i++){
-            adjList.add(new ArrayList());
+        
+        while (q.size()!=0){
+            int canTake = q.poll();
+            canbeTaken++;
+            for (int i = 0; i < graph.get(canTake).size(); i++){
+                int dependent = graph.get(canTake).get(i);
+                outDegree[dependent]--;
+                if(outDegree[dependent] == 0)
+                    q.offer(dependent);
+            }
         }
-        for (int i = 0; i < prerequisites.length; i++){
-            adjList.get(prerequisites[i][0]).add(prerequisites[i][1]);
-        }
-        int completed = 0;
-        // Set<Integer> visited = new HashSet();
-        boolean[] visited = new boolean[numCourses];
-        boolean[] explored = new boolean[numCourses];
-        for (int i = 0; i < numCourses; i++){
-            dfs(adjList, i, visited, explored);
-        }
-        // System.out.println(Arrays.toString(explored));
-        for(int i= 0; i < numCourses; i++){
-            // System.out.println("i= "+i +" "+adjList.get(i));
-            completed += adjList.get(i).size() == 0 ? 1 : 0;
-        }
-        // System.out.println(completed);
-        return completed == numCourses;
+        // System.out.println(Arrays.toString(outDegree));
+        // System.out.println(canbeTaken);
+        return canbeTaken == numCourses;
     }
 }
