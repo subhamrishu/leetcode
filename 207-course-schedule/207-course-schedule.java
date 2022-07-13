@@ -32,8 +32,6 @@ class Solution {
                     q.offer(dependent);
             }
         }
-        // System.out.println(Arrays.toString(outDegree));
-        // System.out.println(canbeTaken);
         return canbeTaken == numCourses;
     }
 }
