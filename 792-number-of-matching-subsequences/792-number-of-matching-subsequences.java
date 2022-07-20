@@ -25,11 +25,11 @@ class Solution {
         //         count+=1;
         // }
         // return count;
-        Map<Character, LinkedList<Integer>> map = new HashMap();
+        Map<Character, ArrayList<Integer>> map = new HashMap();
         char[] c = s.toCharArray();
         for(int i = 0; i < c.length; i++){
-            map.putIfAbsent(c[i], new LinkedList());
-            map.get(c[i]).addLast(i);
+            map.putIfAbsent(c[i], new ArrayList());
+            map.get(c[i]).add(i);
         }
         int count = 0; 
         for (String word: words){
