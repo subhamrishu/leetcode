@@ -18,9 +18,9 @@ class Solution {
             map.putIfAbsent(hash, new ArrayList());
             map.get(hash).add(word);
         }
-        // List<List<String>> op = new ArrayList<>();
-        // map.forEach((k, v) -> op.add(v));
-        // return op;
-        return new ArrayList(map.values());
+        List<List<String>> op = new ArrayList<>();
+        map.forEach((k, v) -> op.add(v));
+        return op;
+        // return new ArrayList(map.values());
     }
 }
