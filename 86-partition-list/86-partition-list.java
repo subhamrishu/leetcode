@@ -12,7 +12,7 @@ class Solution {
     public ListNode partition(ListNode head, int x) {
         ListNode dummy1 = new ListNode();
         ListNode dummy2 = new ListNode();
-        ListNode first=dummy1, second=dummy2, curr = head, head1 = head;
+        ListNode first=dummy1, second=dummy2, curr = head;
         
         while (curr != null){
             if (curr.val < x){
