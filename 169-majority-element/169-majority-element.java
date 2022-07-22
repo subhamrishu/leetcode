@@ -3,15 +3,14 @@ class Solution {
         int major = nums[0], vote = 1;
         
         for (int i = 1; i < nums.length; i++){
+            if(nums[i] == major){
+                vote++;
+                continue;
+            }
+            vote--;
             if (vote == 0){
                 major = nums[i];
                 vote = 1;
-            }
-            else if(nums[i] == major){
-                vote++;
-            }
-            else{
-                vote--;
             }
         }
         return major;
