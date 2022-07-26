@@ -30,6 +30,8 @@ class Solution {
             }
             return new int[] {max};
         }
+        if (k == 1)
+            return nums;
         int sol[] = new int[n-k+1];
         
         int ind = 0, i = 0, j = 0;
@@ -40,13 +42,13 @@ class Solution {
             // while (dq.size() > 0 && nums[i] < )
             dq.offerLast(nums[j]);
             if (j-i+1 == k){
-                // System.out.println(nums[i]+" "+nums[j]+" "+dq);
+                
                 sol[ind++] = dq.peekFirst();
                 if (nums[i] == dq.peekFirst())
                     dq.pollFirst();
                 i++;
             }
-            
+            // System.out.println(nums[i]+" "+nums[j]+" "+dq);
             j++;
         }
         return sol;
