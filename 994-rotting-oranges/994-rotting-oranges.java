@@ -1,10 +1,4 @@
 class Solution {
-//     class Cell{
-//         int x, y;
-//         Cell(int x, int y){
-            
-//         }
-//     }
     int dir[] = {-1, 0, 1, 0, -1};
 
     void helper(int[][] grid, int x, int y, int val){
@@ -31,14 +25,14 @@ class Solution {
                     helper(grid, i, j, 2);
             }
         }
-        int max = 0;
+        int min = 2;
         for (int i = 0; i<grid.length; i++){
             for (int j = 0; j< grid[0].length; j++){
                 if (grid[i][j] == 1)
                     return -1;
-                max = Math.max(max, grid[i][j]);
+                min = Math.max(min, grid[i][j]);
             }
         }
-        return max == 0? 0 : max-2;
+        return min-2;
     }
 }
