@@ -10,11 +10,11 @@ class Solution {
         map.put('9',"wxyz");
     }
     public List<String> letterCombinations(String digits) {
-        // Map<Character, String> map = new HashMap();
-        String[] map = new String[]{
-          "", "", "abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"  
-        };
-        // initializeDictionary(map);
+        Map<Character, String> map = new HashMap();
+        // String[] map = new String[]{
+        //   "", "", "abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"  
+        // };
+        initializeDictionary(map);
         
         List<String> sol = new ArrayList();
         if (digits.length() == 0)
@@ -23,7 +23,7 @@ class Solution {
         sol.add("");
         for (char c: digits.toCharArray()){
             List<String> temp = new ArrayList();
-            for (char d: map[c-'0'].toCharArray()){
+            for (char d: map.get(c).toCharArray()){
                 String s = ""+d;
                 for (String word: sol){
                     temp.add(word+s);
