@@ -14,6 +14,20 @@
  * }
  */
 class Solution {
+    List<Integer> sol;
+    void preOrder(TreeNode root){
+        if (root == null)
+            return ;
+        sol.add(root.val);
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+    public List<Integer> preorderTraversal(TreeNode root) {
+        sol = new ArrayList();
+        preOrder(root);
+        return sol;
+    }
+    /* Iterative
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> sol = new ArrayList();
         Stack<TreeNode> stack = new Stack();
@@ -32,4 +46,6 @@ class Solution {
         }
         return sol;
     }
+        */
+    
 }
