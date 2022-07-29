@@ -9,13 +9,26 @@ class Solution {
         map.put('8', "tuv");
         map.put('9',"wxyz");
     }
+    void backTrack(String digits, Map<Character, String> map, List<String> sol, int index, StringBuilder curr){
+        if (index == digits.length()){
+            sol.add(curr.toString());
+            return;
+        }
+        
+        for(char c: map.get(digits.charAt(index)).toCharArray()){
+            curr.append(c);
+            backTrack(digits, map, sol, index+1, curr);
+            curr.deleteCharAt(curr.length() - 1);
+        }
+    }
     public List<String> letterCombinations(String digits) {
         Map<Character, String> map = new HashMap();
         // String[] map = new String[]{
         //   "", "", "abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"  
         // };
-        initializeDictionary(map);
         
+        initializeDictionary(map);
+        /* iterative solution
         List<String> sol = new ArrayList();
         if (digits.length() == 0)
             return sol;
@@ -31,6 +44,13 @@ class Solution {
             }
             sol = temp;
         }
+        return sol;
+        */
+        /* backtrack solution*/
+        List<String> sol = new ArrayList();
+        if (digits.length() == 0)
+            return sol;
+        backTrack(digits, map, sol, 0, new StringBuilder());
         return sol;
     }
 }
