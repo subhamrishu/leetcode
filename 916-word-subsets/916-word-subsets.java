@@ -17,28 +17,17 @@ class Solution {
     }
     public List<String> wordSubsets(String[] words1, String[] words2) {
         List<String> sol = new ArrayList();
-        // List<int[]> ff = new ArrayList();
-        // int[] words2freq = new int[26];
         for(String word: words2){
             int[] freq = new int[26];
             toFreq(freq, word, true);
-            // ff.add(freq);
         }
-        // int[] count = new int[words1.length];
-        for (int i = 0; i<words1.length; i++){
+        for (String word: words1){
             int[] freq = new int[26];
-            toFreq(freq, words1[i], false);
+            toFreq(freq, word, false);
             if(matchFreq(maxFreq, freq)){
-                sol.add(words1[i]);
+                sol.add(word);
             }
-            // for (int[] f: ff){
-            //     if (matchFreq(f, freq))
-            //         count[i]++;
-            // }
-            // if(count[i] == words2.length)
-            //     sol.add(words1[i]);
         }
-        // System.out.println(Arrays.toString(maxFreq));
         return sol;
     }
 }
