@@ -1,66 +1,67 @@
 class NumArray {
-    int low, high;
-    int[] tree;
+    class SegmentTreeNode{
+        int start, end;
+        SegmentTreeNode left, right;
+        int sum;
+        SegmentTreeNode(int start, int end){
+            this.start = start;
+            this.end = end;
+            this.left = null;
+            this.right = null;
+            this.sum = 0;
+        }
+    }
+    SegmentTreeNode root = null;
+    
     public NumArray(int[] nums) {
-        low = 0;
-        high = nums.length;
-        tree = new int[high*4+1];
-        buildSegmentTree(nums, 1, low, high-1);
+        root = buildTree(nums, 0, nums.length-1);
     }
     
     public void update(int index, int val) {
-        updateSegmentTree(1, low, high-1, index, val);
+        update(root, index, val);
     }
     
     public int sumRange(int left, int right) {
-        return querySegmentTree(1, low, high-1, left, right);
+        return sumRange(root, left, right);
     }
-    void buildSegmentTree(int[] nums, int treeIndex, int low, int high){
-        if (low > high)
-            return;
-        if (low == high){
-            tree[treeIndex] = nums[low];
-            return;
+    SegmentTreeNode buildTree(int[] nums, int start, int end){
+        if (start > end)
+            return null;
+        SegmentTreeNode node = new SegmentTreeNode(start, end);
+        if (start == end)
+            node.sum = nums[start];
+        else{
+            int mid = start + (end - start)/2;
+            node.left = buildTree(nums, start, mid);
+            node.right = buildTree(nums, mid+1, end);
+            node.sum = node.left.sum + node.right.sum;
         }
-        int mid = low + (high - low)/2;
-        int leftChildIndex = 2 * treeIndex, rightChildIndex = 2 * treeIndex + 1;
-        buildSegmentTree(nums, leftChildIndex, low, mid);
-        buildSegmentTree(nums, rightChildIndex, mid +1 , high);
-        
-        tree[treeIndex] = tree[leftChildIndex] + tree[rightChildIndex];
+        return node;
     }
-    int querySegmentTree(int treeIndex, int low, int high, int left, int right){
-        if (low > right || high < left)
-            return 0;
-        
-        if (left == low && right == high)
-            return tree[treeIndex];
-        
-        int mid = low + (high - low)/2;
-        
-        if (left > mid)
-            return querySegmentTree(2 * treeIndex +1, mid + 1, high, left, right);
-        else if (right <= mid)
-            return querySegmentTree(2 * treeIndex , low, mid, left, right);
-        
-        int leftQuery =  querySegmentTree(2 * treeIndex , low, mid, left, mid);
-        int rightQuery = querySegmentTree(2 * treeIndex + 1, mid+1, high, mid+1, right);
-        
-        return leftQuery + rightQuery;
-    }
-    void updateSegmentTree(int treeIndex, int low, int high, int index, int val){
-        if (low == high){
-            tree[treeIndex] = val;
-            return;
+    void update(SegmentTreeNode root, int index, int val){
+        if (root.start == root.end)
+            root.sum = val;
+        else{
+            int mid = root.start + (root.end - root.start)/2;
+            if (index <= mid)
+                update(root.left, index, val);
+            else
+                update(root.right, index, val);
+            root.sum = root.left.sum + root.right.sum;
         }
-        int mid = low + (high - low)/2;
-        
-        if (index > mid)
-            updateSegmentTree(2 * treeIndex + 1, mid + 1, high, index, val);
-        else if (index <= mid)
-            updateSegmentTree(2 * treeIndex , low, mid, index, val);
-        
-        tree[treeIndex] = tree[2 * treeIndex ] + tree[2 * treeIndex + 1];
+    }
+    int sumRange(SegmentTreeNode root, int left, int right){
+        if (root.start == left && root.end == right)
+            return root.sum;
+        else{
+            int mid = root.start + (root.end - root.start)/2;
+            if (right <= mid)
+                return sumRange(root.left, left, right);
+            else if(left >= mid+1)
+                return sumRange(root.right, left, right);
+            return sumRange(root.left, left, mid) + sumRange(root.right, mid+1, right);
+            
+        }
     }
 }
 
