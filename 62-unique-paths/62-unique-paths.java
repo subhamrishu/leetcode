@@ -24,7 +24,7 @@ class Solution {
                 second[j] = first[j] + second[j-1]; 
             }
             first = second;
-            second = new int[n];
+            // second = new int[n];
             second[0] = 1;
         }
         return first[n-1];
