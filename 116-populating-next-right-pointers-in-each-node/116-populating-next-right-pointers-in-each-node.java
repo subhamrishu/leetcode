@@ -30,24 +30,35 @@ class Solution {
     //     helper(root2.left, root2.right);
     //     helper(root1.right, root2.left);
     // }
+    void helper2(Node root){
+        if (root == null)
+            return;
+        if(root.left != null)
+            root.left.next = root.right;
+        if (root.right!=null && root.next!=null)
+            root.right.next = root.next.left;
+        helper2(root.left);
+        helper2(root.right);
+    }
     public Node connect(Node root) {
         if (root == null)
             return null;
         // helper(root.left, root.right);
-        Queue<Node> q = new LinkedList();
-        q.offer(root);
-        while (q.size()!=0){
-            Node rightNode = null;
-            for (int i = q.size(); i >0; i--){
-                Node curr = q.poll();
-                curr.next = rightNode;
-                rightNode = curr;
-                if (curr.left!=null){
-                    q.offer(curr.right);
-                    q.offer(curr.left);
-                }
-            }
-        }
+        helper2(root);
+        // Queue<Node> q = new LinkedList();
+        // q.offer(root);
+        // while (q.size()!=0){
+        //     Node rightNode = null;
+        //     for (int i = q.size(); i >0; i--){
+        //         Node curr = q.poll();
+        //         curr.next = rightNode;
+        //         rightNode = curr;
+        //         if (curr.left!=null){
+        //             q.offer(curr.right);
+        //             q.offer(curr.left);
+        //         }
+        //     }
+        // }
         return root;
     }
 }
