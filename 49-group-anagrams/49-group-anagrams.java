@@ -7,9 +7,9 @@ class Solution {
             for (int i=0; i<word.length();i++){
                 arr[word.charAt(i)-'a']++;
             }
-            String hash = new String(arr);
-            map.putIfAbsent(hash, new ArrayList());
-            map.get(hash).add(word);
+            String hashKey = new String(arr);
+            map.putIfAbsent(hashKey, new ArrayList());
+            map.get(hashKey).add(word);
         }
         // List<List<String>> op = new ArrayList<>();
         // map.forEach((k, v) -> op.add(v));
