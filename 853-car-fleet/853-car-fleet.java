@@ -13,34 +13,28 @@ class Solution {
         int n = position.length;
         if (n == 1)
             return 1;
+        
         List<Pair> l = new ArrayList();
         for (int i = 0; i< n; i++){
             l.add(new Pair(position[i], speed[i]));
         }
         Collections.sort(l, (a,b) -> b.position - a.position);
+        
         int sol = 1;
-        Stack<Double> stack = new Stack();
-        stack.add(getRemainingTime(target, l.get(0).position, l.get(0).speed));
-        for (int i = 1; i < n; i++){
-            double time = getRemainingTime(target, l.get(i).position, l.get(i).speed);
-            // System.out.println(l.get(0).position +" "+time+" "+sol);
-            if (!stack.empty() && stack.peek() < time){
+        double[] stack = new double[n];
+        int top = -1;
+        for (int i = 0; i < n; i++){
+            double time = getRemainingTime(target, 
+                                           l.get(i).position, 
+                                           l.get(i).speed);
+            if (top == -1){
+                stack[++top] = time;
+            }
+            if (stack[top] < time){
                 sol++;
-                stack.push(time);
+                stack[++top] = time;
             }
         }
-        // for (Pair p : l){
-        //     // double time = (target - p.position)* 1/(double)p.speed;
-        //     // System.out.println(p.position +" "+time);
-        //      getRemainingTime(target, )
-        //     if (!stack.empty() && stack.peek() < time){
-        //         sol++;
-        //         stack.push(time);
-        //         continue;
-        //     }
-        //     stack.push(time);
-        //     // sol++;
-        // }
         return sol;
     }
 }
