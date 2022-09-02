@@ -20,18 +20,16 @@ class Solution {
             return sol;
         
         Queue<TreeNode> q = new LinkedList();
-        q.add(root);
+        q.offer(root);
         
-        while(q.size()!=0){
+        while(!q.isEmpty()){
             
             int n = q.size();
             double avg = 0.0;
             for (int i = 0; i < n; i++){
                 TreeNode curr = q.poll();
-                if (curr.left != null)
-                    q.add(curr.left);
-                if (curr.right!=null)
-                    q.add(curr.right);
+                if (curr.left != null) q.offer(curr.left);
+                if (curr.right!=null)  q.offer(curr.right);
                 avg += curr.val;
             }
             sol.add((double)avg/n);
