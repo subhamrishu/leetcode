@@ -1,24 +1,21 @@
 class Solution {
     int findK(int[] piles, int mid){
         int sum = 0;
-        // System.out.println(mid+"========");
         for (int pile: piles){
-            sum+= Math.ceil((double)pile/mid);   
-            // System.out.println(sum);
+            sum+= (pile+mid-1)/mid;  
         }
         
         return sum;
     }
     int findOptimalKbyBinarySearch(int low, int high, int h, int[] piles){
         int k=0;
-        while (low <= high){
+        while (low < high){
             int mid = low + (high - low)/2;
             k = findK(piles, mid);
-            // System.out.println(low + " "+ high + " "+mid + " "+k);
             if (k > h)
                 low = mid + 1;
             else
-                high = mid - 1;
+                high = mid;
         }
         return low;
     }
@@ -30,6 +27,6 @@ class Solution {
         }
         if (piles.length == h)
             return max;
-        return findOptimalKbyBinarySearch(0, max, h, piles);
+        return findOptimalKbyBinarySearch(1, max, h, piles);
     }
 }
