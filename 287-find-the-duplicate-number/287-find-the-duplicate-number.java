@@ -9,12 +9,22 @@ class Solution {
         }
         return -1;
         */
-        /*Method 2 - HashSet */
+        /*Method 2 - HashSet - 67ms - 5.26% faster 
         Set<Integer> set = new HashSet<Integer>();
         for (int num: nums){
             if (set.contains(num))
                 return num;
             set.add(num);
+        }
+        return -1;
+        */
+        /* Method 3 - Negative Marking */
+        
+        for (int i = 0; i < nums.length; i++){
+            int index = Math.abs(nums[i])-1;
+            if (nums[index] < 0)
+                return Math.abs(nums[i]);
+            nums[index] = -1 * nums[index];
         }
         return -1;
     }
