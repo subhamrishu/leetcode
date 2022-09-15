@@ -18,7 +18,7 @@ class Solution {
         }
         return -1;
         */
-        /* Method 3 - Negative Marking */
+        /* Method 3 - Negative Marking - 12ms - 43.33% faster
         
         for (int i = 0; i < nums.length; i++){
             int index = Math.abs(nums[i])-1;
@@ -27,5 +27,15 @@ class Solution {
             nums[index] = -1 * nums[index];
         }
         return -1;
+        */
+        /* Method 4 - Using Array as HashMap */
+        
+        int i = 0;
+        while (nums[i] != i){
+            int temp = nums[i];
+            nums[i] = i;
+            i = temp;
+        }
+        return i;
     }
 }
