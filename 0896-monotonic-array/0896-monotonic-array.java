@@ -15,10 +15,6 @@ class Solution {
         int n = nums.length;
         if (n == 1)
             return true;
-        if (isMonotonicIncreasing(nums))
-            return true;
-        if (isMonotonicDecreasing(nums))
-            return true;
-        return false;
+        return (isMonotonicIncreasing(nums) || isMonotonicDecreasing(nums));
     }
 }
