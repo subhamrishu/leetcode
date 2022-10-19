@@ -1,6 +1,8 @@
 class Solution {
     public int strStr(String haystack, String needle) {
         int ln = needle.length(), lh = haystack.length();
+        if(lh < ln)
+            return -1;
         int n = 0, h = 0;
         while (n < ln && h < lh){
             while (h < lh && n < ln && haystack.charAt(h) == needle.charAt(n)){
