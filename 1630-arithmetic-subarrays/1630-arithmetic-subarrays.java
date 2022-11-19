@@ -7,22 +7,31 @@ class Solution {
         }
         return true;
     }
+    boolean checkArithmetic2(int[] nums, int start, int end){
+        int n = end - start;
+        if (n <= 1)
+            return true;
+        Set<Integer> set = new HashSet<>();
+        int min = nums[start], max = nums[start];
+        for (int k = start; k <= end; k++){
+            min = Math.min(min, nums[k]);
+            max = Math.max(max, nums[k]);
+            set.add(nums[k]);
+        }
+        if (((max - min) % n) != 0)
+            return false;
+        int interval = (max - min )/ n;
+        
+        for (int k = 1; k <= n; k++){
+            if(!set.contains(min + k * interval))
+                return false;
+        }
+        return true;
+    }
     public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
         List<Boolean> sol = new ArrayList<>();
         for (int i = 0; i < l.length; i++){
-            List<Integer> temp = new ArrayList<>();
-            if (r[i] - l[i] < 1){
-                sol.add(false);
-                continue;
-            }
-            for (int k = l[i]; k <= r[i]; k++){
-                temp.add(nums[k]);
-            }
-            Collections.sort(temp);
-            if(checkArithmetic(temp))
-                sol.add(true);
-            else
-                sol.add(false);
+            sol.add(checkArithmetic2(nums, l[i], r[i]));
         }
         return sol;
     }
