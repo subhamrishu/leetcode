@@ -11,20 +11,28 @@ class Solution {
         int n = end - start;
         if (n <= 1)
             return true;
-        Set<Integer> set = new HashSet<>();
+        // Set<Integer> set = new HashSet<>();
         int min = nums[start], max = nums[start];
         for (int k = start; k <= end; k++){
             min = Math.min(min, nums[k]);
             max = Math.max(max, nums[k]);
-            set.add(nums[k]);
+            // set.add(nums[k]);
         }
+        if (min == max)
+            return true;
         if (((max - min) % n) != 0)
             return false;
         int interval = (max - min )/ n;
-        
-        for (int k = 1; k <= n; k++){
-            if(!set.contains(min + k * interval))
+        boolean[] used  = new boolean[n+1];
+        for (int k = start; k <= end; k++){
+            // if(!set.contains(min + k * interval))
+            //     return false;
+            if ((nums[k]-min)%interval != 0)
                 return false;
+            int index = (nums[k] - min)/interval;
+            if (index < 0 || index > n || used[index])
+                return false;
+            used[index] = true;
         }
         return true;
     }
