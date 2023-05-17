@@ -7,19 +7,19 @@ class Solution {
         int max = 0;
         for (int num: nums){
             int count = 1;
-            if (set.contains(num)){
-                int copy = num-1;
+            if (!set.contains(num-1)){
+                int copy = num+1;
                 while (set.contains(copy)){
                     count++;
-                    set.remove(copy);
-                    copy--;
-                }
-                copy = num+1;
-                while(set.contains(copy)){
-                    count++;
-                    set.remove(copy);
+                    // set.remove(copy);
                     copy++;
                 }
+                // copy = num+1;
+                // while(set.contains(copy)){
+                //     count++;
+                //     set.remove(copy);
+                //     copy++;
+                // }
                 max = max < count ? count : max;
             }
         }
