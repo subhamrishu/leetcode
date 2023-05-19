@@ -5,6 +5,8 @@ class Solution {
         Arrays.sort(nums);
         System.out.println(Arrays.toString(nums));
         for (int i = 0; i< nums.length-2; i++){
+            if (nums[i] > 0)
+                break;
             int j = i + 1;
             int k = nums.length - 1;
             while (j < k){
