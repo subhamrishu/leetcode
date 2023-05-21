@@ -1,28 +1,30 @@
 class Solution {
-    boolean checkForAllZero(int[] arr){
-        for (int f: arr){
-            if (f > 0)
+    static boolean checkAllZero(int[] freq){
+        for (int i =0; i < 26; i++){
+            if (freq[i] != 0)
                 return false;
         }
         return true;
     }
     public boolean checkInclusion(String s1, String s2) {
-        int freq[] = new int[26];
-        if (s1.length() > s2.length())
+        int[] freq1 = new int[26];
+        int[] freq2 = new int[26];
+        int len1 = s1.length(), len2 = s2.length();
+        if (len1 > len2)
             return false;
-        for (int i = 0; i < s1.length(); i++){
-            freq[s1.charAt(i)-'a']++;
-            freq[s2.charAt(i)-'a']--;
+        for (char ch: s1.toCharArray()){
+            freq1[ch-'a']++;
         }
-        if (checkForAllZero(freq))
+        for (int i = 0; i < len1; i++){
+            freq1[s2.charAt(i)-'a']--;
+        }
+        if(checkAllZero(freq1))
             return true;
-        int j = 0;
-        for (int i = s1.length(); i < s2.length(); i++){
-            freq[s2.charAt(j)-'a']++;
-            freq[s2.charAt(i)-'a']--;
-            if (checkForAllZero(freq))
+        for (int i = len1; i < len2; i++){
+            freq1[s2.charAt(i-len1)-'a']++;
+            freq1[s2.charAt(i)-'a']--;
+            if(checkAllZero(freq1))
                 return true;
-            j++;
         }
         return false;
     }
