@@ -11,10 +11,10 @@ class Solution {
             rt[i] = (target - list.get(i)[0]) * 1.0/list.get(i)[1];
         }
         int fleet = 1;
-        double max = rt[0];
+        double slowestTime = rt[0];
         for (int i = 1; i < n; i++){
-            if (max < rt[i]){
-                max = rt[i];
+            if (slowestTime < rt[i]){
+                slowestTime = rt[i];
                 fleet += 1;
             }
         }
