@@ -1,7 +1,7 @@
 class Solution {
     public int shortestPathBinaryMatrix(int[][] grid) {
         int[][] paths = new int[][] {{-1,-1}, {-1,0}, {-1,1}, {0,-1}, {0,1},{1,-1},{1,0},{1,1}};
-        LinkedList<int[]> q = new LinkedList<>();
+        Queue<int[]> q = new LinkedList<>();
         int n = grid[0].length-1;
         if (grid[0][0] != 0 || grid[n][n] != 0)
             return -1;
