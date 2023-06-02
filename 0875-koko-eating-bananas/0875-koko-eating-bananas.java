@@ -1,32 +1,29 @@
 class Solution {
-    int findK(int[] piles, int mid){
-        int sum = 0;
-        for (int pile: piles){
-            sum+= (pile+mid-1)/mid;  
+    static boolean canEatAll(int[] piles, int K, int h){
+        long count = 0;
+        for (int pile : piles){
+            count += pile/K;
+            if (pile % K != 0){
+                count++;
+            }
         }
-        
-        return sum;
-    }
-    int findOptimalKbyBinarySearch(int low, int high, int h, int[] piles){
-        int k=0;
-        while (low < high){
-            int mid = low + (high - low)/2;
-            k = findK(piles, mid);
-            if (k > h)
-                low = mid + 1;
-            else
-                high = mid;
-        }
-        return low;
+        return count <= h;
     }
     public int minEatingSpeed(int[] piles, int h) {
-        int max = piles[0];
-        for (int pile : piles){
-            if (pile > max)
-                max = pile;
+        int low = 1;
+        int high = piles[0];
+        for (int pile: piles){
+            high = Math.max(high, pile);
         }
-        if (piles.length == h)
-            return max;
-        return findOptimalKbyBinarySearch(1, max, h, piles);
+        // System.out.println(high);
+        while (low <= high){
+            int K = low + ((high - low) >> 1);
+            if (canEatAll(piles, K, h)){
+                high = K-1;
+            }
+            else 
+                low = K + 1;
+        }
+        return low;
     }
 }
