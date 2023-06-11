@@ -1,32 +1,27 @@
 class SnapshotArray {
-    ArrayList<HashMap<Integer, Integer>> list;
-    int currSnap;
+    List<Map<Integer, Integer>> list;
+    
     public SnapshotArray(int length) {
-        list = new ArrayList<>();
-        currSnap = 0;
-        for (int i = 0; i < length; i++){
-            list.add(new HashMap<>());
-            list.get(i).put(0,0);
-        }
+        list = new ArrayList();
+        list.add(new HashMap());
     }
     
     public void set(int index, int val) {
-        list.get(index).put(currSnap, val);
+        int snapId = list.size() - 1;
+        list.get(snapId).put(index, val);
     }
     
     public int snap() {
-        return currSnap++;
+        list.add(new HashMap());
+        return list.size() - 2;
     }
     
     public int get(int index, int snap_id) {
-        for (int i = snap_id; i >= 0; --i){
-            if(list.get(index).containsKey(i))
-                return list.get(index).get(i);
+        for (int snap = snap_id; snap >= 0; snap--) {
+            if (list.get(snap).containsKey(index))
+                return list.get(snap).get(index);
         }
-        // if(list.get(index).containsKey(snap_id))
-        //     return list.get(index).get(snap_id);
-        // else
-            return 0;
+        return 0;
     }
 }
 
