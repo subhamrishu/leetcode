@@ -11,7 +11,7 @@ class Solution {
             prefixSum[i+1] += prefixSum[i] + nums[i];
         }
         
-        for (int i = 0; i < n; i++){
+        for (int i = k; i < n-k; i++){
             if (i+k >= n || i-k < 0){
                 sol[i] = -1;
             }
