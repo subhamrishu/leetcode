@@ -4,30 +4,30 @@ class Solution {
         int n = nums2.length;
 
         List<List<Integer>> ans = new ArrayList<>();
-        Set<Pair<Integer, Integer>> visited = new HashSet<>();
+        // Pair<Integer,List<Integer>> pair = new Pair<>();
 
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b)->(a[0] - b[0]));
-        minHeap.offer(new int[]{nums1[0] + nums2[0], 0, 0});
-        visited.add(new Pair<Integer, Integer>(0, 0));
-
-        while (k-- > 0 && !minHeap.isEmpty()) {
-            int[] top = minHeap.poll();
-            int i = top[1];
-            int j = top[2];
-
-            ans.add(List.of(nums1[i], nums2[j]));
-
-            if (i + 1 < m && !visited.contains(new Pair<Integer, Integer>(i + 1, j))) {
-                minHeap.offer(new int[]{nums1[i + 1] + nums2[j], i + 1, j});
-                visited.add(new Pair<Integer, Integer>(i + 1, j));
-            }
-
-            if (j + 1 < n && !visited.contains(new Pair<Integer, Integer>(i, j + 1))) {
-                minHeap.offer(new int[]{nums1[i] + nums2[j + 1], i, j + 1});
-                visited.add(new Pair<Integer, Integer>(i, j + 1));
+        PriorityQueue<Pair<Integer,List<Integer>>> maxHeap = new PriorityQueue<>((a, b)->(b.getKey() - a.getKey()));
+        
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < n; j++){
+                int sum = nums1[i] + nums2[j];
+                if (maxHeap.size() < k){
+                    maxHeap.add(new Pair(sum, new ArrayList(Arrays.asList(nums1[i], nums2[j]))));
+                }
+                else if (maxHeap.peek().getKey() > sum){
+                    maxHeap.poll();
+                    maxHeap.add(new Pair(sum, new ArrayList(Arrays.asList(nums1[i], nums2[j]))));
+                }
+                else
+                    break;
             }
         }
-
+        while (k > 0 && !maxHeap.isEmpty()){
+            
+            ans.add(0, maxHeap.poll().getValue());
+            k--;
+        }
         return ans;
+        
     }
 }
