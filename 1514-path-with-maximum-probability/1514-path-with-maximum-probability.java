@@ -52,27 +52,29 @@ class Solution {
             graph.computeIfAbsent(u, k -> new ArrayList<>()).add(new Pair<>(v, pathProb));
             graph.computeIfAbsent(v, k -> new ArrayList<>()).add(new Pair<>(u, pathProb));
         }
-        
+
         double[] maxProb = new double[n];
         maxProb[start] = 1d;
-        
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(start);
-        while (!queue.isEmpty()) {
-            int curNode = queue.poll();
-            for (Pair<Integer, Double> neighbor : graph.getOrDefault(curNode, new ArrayList<>())) {
-                int nxtNode = neighbor.getKey();
-                double pathProb = neighbor.getValue();
 
-                // Only update maxProb[nxtNode] if the current path increases
-                // the probability of reach nxtNode.
-                if (maxProb[curNode] * pathProb > maxProb[nxtNode]) {
-                    maxProb[nxtNode] = maxProb[curNode] * pathProb;
-                    queue.offer(nxtNode);
+        PriorityQueue<Pair<Double, Integer>> pq = new PriorityQueue<>((a, b) -> -Double.compare(a.getKey(), b.getKey()));
+        pq.add(new Pair<>(1.0, start));
+        while (!pq.isEmpty()) {
+            Pair<Double, Integer> cur = pq.poll();
+            double curProb = cur.getKey();
+            int curNode = cur.getValue();
+            if (curNode == end) {
+                return curProb;
+            }
+            for (Pair<Integer, Double> nxt : graph.getOrDefault(curNode, new ArrayList<>())) {
+                int nxtNode = nxt.getKey();
+                double pathProb = nxt.getValue();
+                if (curProb * pathProb > maxProb[nxtNode]) {
+                    maxProb[nxtNode] = curProb * pathProb;
+                    pq.add(new Pair<>(maxProb[nxtNode], nxtNode));
                 }
             }
         }
-        
-        return maxProb[end];
+
+        return 0d;
     }
 }
