@@ -3,7 +3,7 @@ class Solution {
     int helper(int[] nums, int curr, int prev){
         if (curr == nums.length)
             return 0;
-        else if (memo[curr][prev+1] != 0)
+        else if (memo[curr][prev+1] != -1)
             return memo[curr][prev+1];
         int take = 0, dontTake = helper(nums, curr+1, prev);
         if (prev == -1 || nums[curr] > nums[prev]) 
@@ -13,6 +13,9 @@ class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
         memo = new int[n][n+1];
+        for (int[] t: memo){
+            Arrays.fill(t, -1);
+        }
         return helper(nums, 0, -1);
     }
 }
