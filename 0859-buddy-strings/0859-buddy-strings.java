@@ -27,6 +27,8 @@ class Solution {
             sArr[j] = temp;
             s = new String(sArr);
         }
+        else
+            return false;
 
         return s.equals(goal);
     }
