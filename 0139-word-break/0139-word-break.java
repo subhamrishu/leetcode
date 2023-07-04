@@ -39,8 +39,12 @@ class Solution {
         boolean[] dp = new boolean[len+1];
         dp[len] = true;
         for (int i = len-1; i >= 0; i--){
+            TrieNode curr = root;
             for (int j = i+1; j <= len; j++){
-                if (dp[j] && search(root, s.substring(i, j))){
+                int ch = s.charAt(j-1)-'a';
+                if (curr.children[ch] == null) break;
+                curr = curr.children[ch];
+                if (dp[j] && curr.endFlag){
                     dp[i] = true;
                     break;
                 }
