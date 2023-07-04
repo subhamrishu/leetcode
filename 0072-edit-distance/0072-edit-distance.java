@@ -1,27 +1,47 @@
 class Solution {
-    int memo[][];
-    int helper(int i, int j, String w1, String w2){
-        if (i == w1.length() && j == w2.length())
-            return 0;
-        else if (i == w1.length())
-            return w2.length() - j;
-        else if (j == w2.length())
-            return w1.length() - i;
-        if (memo[i][j] != -1)
-            return memo[i][j];
-        else if (w1.charAt(i) == w2.charAt(j))
-            return helper(i+1, j+1, w1, w2);
-        int insert = helper(i, j+1, w1, w2);
-        int delete = helper(i+1, j, w1, w2);
-        int replace = helper(i+1, j+1, w1, w2);
-        return memo[i][j] = 1 + Math.min(insert, Math.min(delete, replace));
-    }
+    // int memo[][];
+    // int helper(int i, int j, String w1, String w2){
+    //     if (i == w1.length() && j == w2.length())
+    //         return 0;
+    //     else if (i == w1.length())
+    //         return w2.length() - j;
+    //     else if (j == w2.length())
+    //         return w1.length() - i;
+    //     if (memo[i][j] != -1)
+    //         return memo[i][j];
+    //     else if (w1.charAt(i) == w2.charAt(j))
+    //         return helper(i+1, j+1, w1, w2);
+    //     int insert = helper(i, j+1, w1, w2);
+    //     int delete = helper(i+1, j, w1, w2);
+    //     int replace = helper(i+1, j+1, w1, w2);
+    //     return memo[i][j] = 1 + Math.min(insert, Math.min(delete, replace));
+    // }
+    // public int minDistance(String word1, String word2) {
+    //     int n = word1.length(), m = word2.length();
+    //     memo = new int[n][m];
+    //     for (int[] arr: memo){
+    //         Arrays.fill(arr, -1);
+    //     }
+    //     return helper(0, 0, word1, word2);
+    // }
     public int minDistance(String word1, String word2) {
         int n = word1.length(), m = word2.length();
-        memo = new int[n][m];
-        for (int[] arr: memo){
-            Arrays.fill(arr, -1);
+        int[][] dp = new int[n+1][m+1];
+        for (int i = 0; i <= n; i++){
+            dp[i][0] = i;
         }
-        return helper(0, 0, word1, word2);
+        for (int i = 0; i <= m; i++){
+            dp[0][i] = i;
+        }
+        for (int i = 1; i <= n; i++){
+            for (int j = 1; j <= m; j++){
+                if (word1.charAt(i-1) == word2.charAt(j-1)){
+                    dp[i][j] = dp[i-1][j-1];
+                }else{
+                    dp[i][j] = 1+ Math.min(dp[i][j-1], Math.min(dp[i-1][j], dp[i-1][j-1]));
+                }
+            }
+        }
+        return dp[n][m];
     }
 }
