@@ -5,13 +5,9 @@ class Solution {
         for (right = 0; right < n; right++){
             if (nums[right] == 0)
                 zc++;
-            else
-                oc++;
             while (zc > k){
                 if (nums[left++] == 0)
                     zc--;
-                else
-                    oc--;
             }
             max = Math.max(max, right - left +1);
         }
