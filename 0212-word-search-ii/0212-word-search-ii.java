@@ -26,7 +26,7 @@ class Solution {
         }
         int m = board.length, n = board[0].length;
         boolean[][] visited;
-        Set<String> sol = new HashSet<>();
+        List<String> sol = new ArrayList<>();
         for (int i = 0; i < m; i++){
             for (int j = 0; j < n; j++){
                 int idx = board[i][j] - 'a';
@@ -34,13 +34,13 @@ class Solution {
                 dfs(i, j, visited, sol, root, new StringBuilder(), board);
             }
         }
-        List<String> ans = new ArrayList<>();
-        for (String word: sol){
-            ans.add(word);
-        }
-        return ans;
+        // List<String> ans = new ArrayList<>();
+        // for (String word: sol){
+        //     ans.add(word);
+        // }
+        return sol;
     }
-    void dfs(int i, int j, boolean[][] visited, Set<String> sol, TrieNode currNode, StringBuilder currStr, char[][] board){
+    void dfs(int i, int j, boolean[][] visited, List<String> sol, TrieNode currNode, StringBuilder currStr, char[][] board){
         if (i >= board.length || i < 0 || j < 0 || j >= board[0].length || visited[i][j]){
             // if (i < board.length && i >= 0 && j >= 0 && j < board[0].length )
             //     System.out.println(visited[i][j]);
@@ -57,8 +57,10 @@ class Solution {
         
         currNode = currNode.children[idx];
         currStr.append(board[i][j]);
-        if (currNode.endFlag)
+        if (currNode.endFlag){
             sol.add(currStr.toString());
+            currNode.endFlag = false;
+        }
         
         for (int k = 0; k < 4; k++){
             int i1 = i + dir[k], j1 = j + dir[k+1];
