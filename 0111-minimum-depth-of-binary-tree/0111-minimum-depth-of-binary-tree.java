@@ -14,19 +14,22 @@
  * }
  */
 class Solution {
-    int helper(TreeNode root){
-        if (root == null)
-            return Integer.MAX_VALUE -1;
-        else if (root.left == null && root.right == null)
-            return 1;
-        int left = 1 + helper(root.left);
-        int right = 1 + helper(root.right);
-        return Math.min(left, right);
-    }
-
     public int minDepth(TreeNode root) {
-       if (root == null)
-           return 0;
-        return helper(root);
+        if (root == null)
+            return 0;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        int depth = 0;
+        while (!q.isEmpty()){
+            depth++;
+            int size = q.size();
+            for(int i = 0; i < size; i++){
+                TreeNode curr = q.poll();
+                if (curr.left == null && curr.right == null) return depth;
+                if (curr.left != null) q.offer(curr.left);
+                if (curr.right != null) q.offer(curr.right);
+            }
+        }
+        return depth;
     }
 }
