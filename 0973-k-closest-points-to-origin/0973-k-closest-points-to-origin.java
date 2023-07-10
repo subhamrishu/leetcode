@@ -1,33 +1,40 @@
 class Solution {
-    class Points{
-        int[] vertices;
-        double distance;
-        Points(int[] p){
-            vertices = p;
-            distance = Math.sqrt(p[0]*p[0] + p[1]*p[1]);
+    int distanceFromOrigin(int[] p){
+        return p[0]*p[0] + p[1]*p[1];
+    }
+    void swap(int[][] points, int i, int j){
+        int[] temp = points[i];
+        points[i] = points[j];
+        points[j] = temp;
+    }
+    int partition(int[][] points, int lo, int hi){
+        int pivotDist = distanceFromOrigin(points[hi]);
+        int i = lo-1, j = lo;
+        while (j < hi){
+            if (distanceFromOrigin(points[j]) <= pivotDist){
+                i++;
+                swap(points, i, j);
+            }
+            j++;
         }
+        swap(points, i+1, j);
+        return i+1;
+    }
+    int[][] quickSort(int[][] points, int k){
+        int pivot = points.length;
+        int lo = 0, hi = points.length - 1;
+        while (lo < hi){
+            pivot = partition(points, lo, hi);
+            if (pivot < k)
+                lo = pivot+1;
+            else if (pivot > k)
+                hi = pivot-1;
+            else 
+                break;
+        }
+        return Arrays.copyOf(points, k);
     }
     public int[][] kClosest(int[][] points, int k) {
-        PriorityQueue<Points> pq = new PriorityQueue<Points>(new Comparator<Points>(){
-           public int compare(Points p1, Points p2){
-               if(p2.distance < p1.distance){
-                  return -1;
-               }
-               else{
-                  return 1;
-               }
-           }
-        });
-        for (int[] point: points){
-            pq.add(new Points(point));
-            if (pq.size() > k){
-                pq.poll();
-            }
-        }
-        int[][] sol = new int[k][];
-        for (int i = 0; i < k; i++){
-            sol[i] = pq.poll().vertices;
-        }
-        return sol;
+        return quickSort(points, k);
     }
 }
