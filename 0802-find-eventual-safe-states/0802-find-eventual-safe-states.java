@@ -8,6 +8,8 @@ class Solution {
                 sum += 1;
             else if (!visited[node])
                 sum += dfs(node, visited, safeNodes, graph);
+            if (sum == 0)
+                break;
         }
         if (sum == graph[currNode].length){
             safeNodes[currNode] = true;
