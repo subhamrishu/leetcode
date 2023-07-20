@@ -1,6 +1,7 @@
 class Solution {
     public boolean isRobotBounded(String instructions) {
         int[] pos = new int[3];
+        //pos[2] = direction, pos[2]==0 -> north, pos[2]==1 -> east, pos[2]==2 -> south, pos[2]==3 -> west 
         for (char ch: instructions.toCharArray()){
             if (ch == 'G'){
                 if (pos[2] == 0){
