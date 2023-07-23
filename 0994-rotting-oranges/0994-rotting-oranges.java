@@ -32,7 +32,7 @@ class Solution {
                 if (grid[i][j] == 2){
                     visited = new boolean[m][n];
                     dfs(grid, time, visited, i, j, -1);
-                    System.out.println(Arrays.deepToString(time));
+                    // System.out.println(Arrays.deepToString(time));
                 }
             }
         }
