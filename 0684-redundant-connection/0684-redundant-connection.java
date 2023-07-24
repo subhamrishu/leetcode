@@ -18,7 +18,7 @@ class Solution {
         boolean[] visited = new boolean[1001];
         for (int[] edge: edges){
             
-            if (dfs(edge[0], edge[1], graph, visited)){
+            if (graph.get(edge[0]).size() != 0  && graph.get(edge[1]).size() != 0 && dfs(edge[0], edge[1], graph, visited)){
                 return edge;
             }
             graph.get(edge[0]).add(edge[1]);
