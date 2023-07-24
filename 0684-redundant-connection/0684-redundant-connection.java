@@ -1,29 +1,42 @@
 class Solution {
-    boolean dfs(int curr, int target, List<List<Integer>> graph, boolean[] visited){
-        if (curr == target)
-            return true;
-        visited[curr] = true;
-        for (int adj: graph.get(curr)){
-            if (!visited[adj] && dfs(adj, target, graph, visited))
-                return true;
+    class DSU{
+        int[] parent, rank;
+        public DSU(int n){
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; i++){
+                parent[i] = i;
+                rank[i] = 1;
+            }
         }
-        visited[curr] = false;
-        return false;
+    
+        int find(int x){
+            if (x == parent[x])
+                return x;
+            return parent[x] = find(parent[x]); //path compression
+        }
+        boolean union(int x, int y){
+            int xr = find(x), yr = find(y);
+            if (xr == yr)
+                return false;
+            else if (rank[xr] > rank[yr]){
+                parent[yr] = xr;
+                rank[xr] += rank[yr];
+            }
+            else{
+                parent[xr] = yr;
+                rank[yr] += rank[xr];
+            }
+            return true;
+        }
     }
     public int[] findRedundantConnection(int[][] edges) {
-        List<List<Integer>> graph = new ArrayList<>();
-        for (int i = 0; i <= 1000; i++){
-            graph.add(new ArrayList<>());
-        }
-        boolean[] visited = new boolean[1001];
+        int n = edges.length;
+        DSU uf = new DSU(n);
         for (int[] edge: edges){
-            
-            if (graph.get(edge[0]).size() != 0  && graph.get(edge[1]).size() != 0 && dfs(edge[0], edge[1], graph, visited)){
+            if (!uf.union(edge[0]-1, edge[1]-1))
                 return edge;
-            }
-            graph.get(edge[0]).add(edge[1]);
-            graph.get(edge[1]).add(edge[0]);
         }
-        return new int[2];
+        return new int[0];
     }
 }
