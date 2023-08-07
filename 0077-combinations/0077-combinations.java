@@ -1,12 +1,12 @@
 class Solution {
     void helper(int n, int k, List<Integer> temp, List<List<Integer>> sol, int start){
-        if (temp.size() == k){
+        if (k == 0){
             sol.add(new ArrayList<>(temp));
             return;
         }
-        for (int i = start; i <= n; i++){
+        for (int i = start; i <= n-k+1; i++){
             temp.add(i);
-            helper(n, k, temp, sol, i+1);
+            helper(n, k-1, temp, sol, i+1);
             temp.remove(temp.size()-1);
         }
     }
