@@ -8,41 +8,54 @@
  * }
  */
 class Solution {
-    void dfs(TreeNode root, int k, int dist, Map<TreeNode, Integer> map, List<Integer> sol){
-        if (root == null)
-            return;
-        if (map.containsKey(root))
-            dist = map.get(root);
-        if (dist == k)
-            sol.add(root.val);
-        dfs(root.left, k, dist+1, map, sol);
-        dfs(root.right, k, dist+1, map, sol);
-    }
-    int findTarget(TreeNode root, TreeNode target, Map<TreeNode, Integer> map){
-        if (root == null)
-            return -1;
-        else if (root == target){
-            map.put(root, 0);
-            return 0;
-        }
-        int left = findTarget(root.left, target, map);
-        if (left >= 0){
-            map.put(root, left + 1);
-            return left+1;
-        }
-        int right = findTarget(root.right, target, map);
-        if (right >= 0){
-            map.put(root, right + 1);
-            return right + 1;
-        }
-        return -1;
-    }
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        Map<TreeNode, Integer> map = new HashMap<>();
-        List<Integer> sol = new LinkedList<>();
-        findTarget(root, target, map);
-        dfs(root, k, map.get(root), map, sol);
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        Map<TreeNode, TreeNode> map = new HashMap<>();
+        TreeNode t = null;
+        while (!q.isEmpty()){
+            TreeNode curr = q.poll();
+            if (curr == target){
+                t = curr;
+            }
+            if (curr.left != null){
+                map.put(curr.left, curr);
+                q.offer(curr.left);
+            }
+            if (curr.right != null){
+                map.put(curr.right, curr);
+                q.offer(curr.right);
+            }
+        }
+        q = new LinkedList<>();
+        q.add(t);
+        List<Integer> sol = new ArrayList<>();
+        int level = 0;
+        Set<TreeNode> set = new HashSet<>();
+        while (!q.isEmpty()){
+            int size = q.size();
+            for (int i = size; i>0; i--){
+                TreeNode curr = q.poll();
+                if (set.contains(curr)) continue;
+                set.add(curr);
+                // System.out.println(curr.val+" "+level);
+                if (level == k){
+                    sol.add(curr.val);
+                }
+                if (level > k) break;
+                if (curr.left != null){
+                    q.add(curr.left);
+                }
+                if (curr.right != null){
+                    q.add(curr.right);
+                }
+                if (map.containsKey(curr)){
+                    q.add(map.get(curr));
+                }
+            }
+            level++;
+            // System.out.println(q);
+        }
         return sol;
     }
-    
 }
