@@ -1,21 +1,23 @@
 class Solution {
     public int equalPairs(int[][] grid) {
-        Map<Long, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
         int sol = 0;
-        for (int i = 0; i < grid.length; i++){
-            long sum = 0;
+        for(int i = 0; i < grid.length; i++){
+            String hash = "";
             for (int j = 0; j < grid[0].length; j++){
-                sum = sum *10 + grid[i][j];
+                hash += "*"+grid[i][j];
             }
-            map.putIfAbsent(sum, 0);
-            map.put(sum, map.get(sum)+1);
+            int hashKey = hash.hashCode();
+            map.putIfAbsent(hashKey, 0);
+            map.put(hashKey, map.get(hashKey)+1);
         }
-        for (int i = 0; i < grid.length; i++){
-            long sum = 0;
+        for(int i = 0; i < grid.length; i++){
+            String hash = "";
             for (int j = 0; j < grid[0].length; j++){
-                sum = sum *10 + grid[j][i];
+                hash += "*"+grid[j][i];
             }
-            sol += map.getOrDefault(sum,0);
+            
+            sol += map.getOrDefault(hash.hashCode(), 0);
         }
         return sol;
     }
