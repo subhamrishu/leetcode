@@ -8,10 +8,13 @@ class Solution {
                 stack.push(s.charAt(i));
             }
         }
-        StringBuilder sb = new StringBuilder();
+        // StringBuilder sb = new StringBuilder();
+        char[] str = new char[stack.size()];
+        int k = stack.size()-1;
         while (!stack.isEmpty()){
-            sb.append(stack.pop());
+            // sb.append(stack.pop());
+            str[k--] = stack.pop();
         }
-        return sb.reverse().toString();
+        return new String(str);
     }
 }
