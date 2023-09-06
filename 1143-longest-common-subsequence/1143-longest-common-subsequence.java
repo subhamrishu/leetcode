@@ -13,15 +13,17 @@ class Solution {
     int helper2(char[] text1, char[] text2){
         int t1_n = text1.length, t2_n = text2.length; 
         int[][] dp = new int[t1_n+1][t2_n+1];
-        for (int i = 0; i < t1_n; i++){
-            dp[i][0] = 0;
-        }
-        for (int i = 0; i < t2_n; i++){
-            dp[0][i] = 0;
-        }
-        for (int i = 1; i <=t1_n; i++){
-            for (int j = 1; j <=t2_n; j++){
-                if (text1[i-1] == text2[j-1])
+        // for (int i = 0; i < t1_n; i++){
+        //     dp[i][0] = 0;
+        // }
+        // for (int i = 0; i < t2_n; i++){
+        //     dp[0][i] = 0;
+        // }
+        for (int i = 0; i <=t1_n; i++){
+            for (int j = 0; j <=t2_n; j++){
+                if (i == 0 || j == 0)
+                    dp[i][j] = 0;
+                else if (text1[i-1] == text2[j-1])
                     dp[i][j] = 1 + dp[i-1][j-1];
                 else
                     dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
