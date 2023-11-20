@@ -1,23 +1,17 @@
 class Solution {
     public int longestSubarray(int[] nums) {
-        int n = nums.length;
-
-        int left = 0;
-        int zeros = 0;
-        int ans = 0;
-
-        for (int right = 0; right < n; right++) {
-            if (nums[right] == 0) {
-                zeros++;
+        int left = 0, zero = 0, ans = 0;
+        for (int right = 0; right < nums.length; right++){
+            if (nums[right] == 0){
+                zero++;
             }
-            while (zeros > 1) {
-                if (nums[left] == 0) {
-                    zeros--;
-                }
-                left++;
-            }
-            ans = Math.max(ans, right - left + 1 - zeros);
+            while (zero > 1 && left <= right && nums[left++] != 0);
+            
+            if (zero > 1)
+                zero--;
+            
+            ans = Math.max(ans, right - left);
         }
-        return (ans == n) ? ans - 1 : ans;
+        return ans;
     }
 }
