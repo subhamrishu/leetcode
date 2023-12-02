@@ -1,31 +1,43 @@
 class Solution {
-    boolean checkIfAllZero(int[] freq){
-        for(int f : freq){
-            if (f != 0)
-                return false;
-        }
-        return true;
-    }
     public List<Integer> findAnagrams(String s, String p) {
-        int s_len = s.length(), p_len = p.length();
-        char[] ss = s.toCharArray();
-        char[] pp = p.toCharArray();
-        List<Integer> sol = new ArrayList<>();
-        if (p_len > s_len)
-            return sol;
-        int[] freq = new int[26];
-        for (int i = 0; i < p_len; i++){
-            freq[pp[i]-'a']++;
-            freq[ss[i]-'a']--;
+        Map<Character, Integer> map = new HashMap<>();
+        List<Integer> l = new LinkedList<>();
+        
+        for (char c: p.toCharArray()){
+            map.put(c, map.getOrDefault(c, 0)+1);
         }
-        if (checkIfAllZero(freq))
-            sol.add(0);
-        for (int i = p_len; i < s_len; i++){
-            freq[ss[i]-'a']--;
-            freq[ss[i-p_len]-'a']++;
-            if (checkIfAllZero(freq))
-                sol.add(i-p_len+1);
+        int size = map.size();
+        
+        int left=0, right=0, ans = s.length()+1, begin = 0;
+        
+        while (right < s.length()){
+            char ch = s.charAt(right);
+            if (map.containsKey(ch)){
+                map.put(ch, map.get(ch)-1);
+                if (map.get(ch) == 0)
+                    size--;
+            }
+            right++;
+            while (size == 0 && left <= right){
+                
+                char cl = s.charAt(left);
+                if (map.containsKey(cl)){
+                    map.put(cl, map.get(cl)+1);
+                    if (map.get(cl) > 0)
+                        size++;
+                }
+                if (right - left == p.length())
+                    l.add(left);
+                // if (ans > right - left){
+                //     l.add(left);
+                // }
+                left++;
+            }
+            
         }
-        return sol;
+        return l;
+        // if (ans == s.length()+1)
+        //     return "";
+        // return s.substring(begin, begin+ans);
     }
 }
