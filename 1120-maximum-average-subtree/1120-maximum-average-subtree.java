@@ -14,27 +14,18 @@
  * }
  */
 class Solution {
-    class SubTree{
-        double avg;
-        int num;
-        SubTree(double avg, int num){
-            this.avg = avg;
-            this.num = num;
-        }
-    }
     double max = 0.0;
-    SubTree helper(TreeNode root){
-        if (root == null){
-            return new SubTree(0.0, 0);
-        }
-        SubTree left = helper(root.left);
-        SubTree right = helper(root.right);
-        int num = left.num + right.num + 1;
+    int helper(TreeNode root){
+        if (root == null)
+            return 0;
+        int left = helper(root.left);
+        int right = helper(root.right);
+        int num = 1 + left + right;
+    
+        root.val = root.val + ((root.left != null) ? root.left.val : 0) + ((root.right != null) ? root.right.val : 0);
+        max = Math.max(max, root.val*1.0/num);
         
-        double avg = (left.avg * left.num + right.avg * right.num + root.val) / num * 1.0;
-        // System.out.println("root = "+ root.+ " left.avg = "+ left.avg + " right.avg = " + right.avg + " left.num = "+ left.num + " right.num = "+right.num+" num = "+num);
-        max = Math.max(max, avg);
-        return new SubTree(avg, num);
+        return num;
     }
     public double maximumAverageSubtree(TreeNode root) {
         helper(root);
