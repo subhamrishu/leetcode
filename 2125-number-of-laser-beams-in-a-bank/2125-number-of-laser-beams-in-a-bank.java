@@ -12,10 +12,12 @@ class Solution {
         
         int prev = 0, curr = 0, count = 0;
         for (String b : bank){
-            if (curr != 0)
-                prev = curr;
             curr = numberOfSetBits(b);
+            if (curr == 0)
+                continue;
+            
             count += prev * curr;
+            prev = curr;
         }
         return count;
     }
