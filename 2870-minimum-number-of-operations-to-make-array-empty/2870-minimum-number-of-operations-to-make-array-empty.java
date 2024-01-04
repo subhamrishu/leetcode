@@ -1,19 +1,18 @@
 class Solution {
     public int minOperations(int[] nums) {
-        int count  = 0, max = 0;
-        int[] freq = new int[1000001];
-        for (int num: nums){
-            freq[num]++;
-            max = Math.max(max, num);
-        }
-        for (int i = 1; i <= max; i++){
-            if (freq[i] == 1)
+        Arrays.sort(nums);
+        int count = 0, i = 0;
+        while (i < nums.length){
+            int temp = nums[i], j = i;
+            while (j < nums.length && nums[j] == temp)
+                j++;
+            int c = j-i;
+            if (c == 1)
                 return -1;
-            int mod = freq[i] % 3;
-            if (mod == 1 || mod == 2)
-                count += freq[i]/3 + 1;
-            else
-                count += freq[i]/3;
+            count += c/3;
+            if (c%3 != 0)
+                count++;
+            i = j;
         }
         return count;
     }
