@@ -1,5 +1,6 @@
 class Solution {
     public double calculateTax(int[][] brackets, int income) {
+        if(brackets[0][0]>income) return (double) income * brackets[0][1] / 100;
         double tax  = 0;
         int upper = 0;
         for (int i = 0; i < brackets.length && income != 0; i++){
