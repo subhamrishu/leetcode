@@ -1,31 +1,37 @@
 class Solution {
-    boolean isPalindrome(String s){
-        char[] cs = s.toCharArray();
-        int i = 0, j = cs.length-1;
+    boolean isPalindrome(List<Character> s){
+        // char[] cs = s.toCharArray();
+        int i = 0, j = s.size()-1;
         while (i < j){
-            if (cs[i] != cs[j])
+            if (s.get(i) != s.get(j))
                 return false;
             i++;
             j--;
         }
         return true;
     }
-    int dfs(String s, String s1, String s2, int curr){
-        if (curr == s.length()){
+    int dfs(char[] cs, List<Character> s1, List<Character> s2, int curr){
+        if (curr == cs.length){
             if (isPalindrome(s1) && isPalindrome(s2)){
-                return s1.length() * s2.length();
+                return s1.size() * s2.size();
             }
             else 
                 return 0;
         }
-            
-            int a = dfs(s, s1+s.charAt(curr), s2, curr+1);
-            int b = dfs(s, s1, s2+s.charAt(curr), curr+1);
-            int c = dfs(s, s1, s2, curr+1);
-            return Math.max(a, Math.max(b,c));
+        s1.add(cs[curr]);
+        int a = dfs(cs, s1, s2, curr+1);
+        s1.remove(s1.size()-1);
+
+        s2.add(cs[curr]);
+        int b = dfs(cs, s1, s2, curr+1);
+        s2.remove(s2.size()-1);
+
+        int c = dfs(cs, s1, s2, curr+1);
+        return Math.max(a, Math.max(b,c));
         
     }
     public int maxProduct(String s) {
-        return dfs(s, "", "", 0);
+        char[] cs = s.toCharArray();
+        return dfs(cs, new ArrayList<>(), new ArrayList<>(), 0);
     }
 }
