@@ -12,8 +12,30 @@ class Solution {
         return dp[curr][last+1] = Math.min(sum1, Math.min(sum2, sum3));
     }
     public int minCost(int[][] costs) {
-        Integer[][] dp = new Integer[costs.length][4];
+//         Integer[][] dp = new Integer[costs.length][4];
         
-        return paint(costs, 0, -1, dp);
+//         return paint(costs, 0, -1, dp);
+        int[] dp = new int[3];
+        int[] temp = new int[3];
+        
+        dp[0] = costs[0][0];
+        dp[1] = costs[0][1];
+        dp[2] = costs[0][2];
+        
+        temp[0] = dp[0];
+        temp[1] = dp[1];
+        temp[2] = dp[2];
+        
+        
+        for (int i = 1; i < costs.length; i++){
+            dp[0] = Math.min(temp[1], temp[2]) + costs[i][0];
+            dp[1] = Math.min(temp[0], temp[2]) + costs[i][1];
+            dp[2] = Math.min(temp[1], temp[0]) + costs[i][2];
+            
+            temp[0] = dp[0];
+            temp[1] = dp[1];
+            temp[2] = dp[2];
+        }
+        return Math.min(temp[0], Math.min(temp[1], temp[2]));
     }
 }
