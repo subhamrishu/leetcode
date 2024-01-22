@@ -1,19 +1,19 @@
 class Solution {
     public int[] findErrorNums(int[] nums) {
         int n = nums.length;
-        int[] count = new int[n+1];
+        int dup = -1, missing = 1;
         
         for (int i = 0; i < n; i++){
-            count[nums[i]]++;
+            int idx = Math.abs(nums[i])-1;
+            if (nums[idx] < 0)
+                dup = nums[i];
+            else
+                nums[idx] *= -1; 
         }
-        int k = 0;
-        int[] sol = new int[2];
-        for (int i = 1; i <= n; i++){
-            if (count[i] == 2)
-                sol[0] = i;
-            else if (count[i] == 0)
-                sol[1] = i;
+        for (int i = 1; i < n; i++){
+            if (nums[i] > 0)
+                missing = i + 1;
         }
-        return sol;
+        return new int[]{Math.abs(dup), missing};
     }
 }
