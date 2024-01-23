@@ -1,14 +1,30 @@
-// class Solution {
-    // Integer[] dp;
-//     boolean isUnique(String temp){
-//         int[] freq = new int[26];
-//         for (char ch: temp.toCharArray()){
-//             freq[ch-'a']++;
-//             if (freq[ch-'a'] > 1)
-//                 return false;
-//         }
-//         return true;
-//     }
+class Solution {
+    Integer[] dp;
+    boolean isUnique(String temp){
+        int[] freq = new int[26];
+        for (char ch: temp.toCharArray()){
+            freq[ch-'a']++;
+            if (freq[ch-'a'] > 1)
+                return false;
+        }
+        return true;
+    }
+    public int maxLength(List<String> arr) {
+        List<String> res = new ArrayList<>();
+        res.add("");
+        for (String str : arr) {
+            if (!isUnique(str)) continue;
+            List<String> resList = new ArrayList<>();
+            for (String candidate : res) {
+                String temp = candidate + str;
+                if (isUnique(temp)) resList.add(temp);
+            }
+            res.addAll(resList);
+        }
+        int ans = 0;
+        for (String str : res) ans = Math.max(ans, str.length());
+        return ans;
+    }
 //     int concat(List<String> arr, int curr, String combined){
 //         // System.out.println("concat(curr = " + curr + " combined = " + combined + ")");
 //         if (curr == arr.size()){
@@ -35,33 +51,33 @@
 //         return Math.max(a, Math.max(b, c));
         
 //     }
+    // public int maxLength(List<String> arr) {
+    //     // dp = new Integer[arr.size()];
+    //     return concat(arr, 0, "");
+    //     // System.out.println(Arrays.toString(dp));
+    //     // return dp[0];
+    // }
+}
+// class Solution {
 //     public int maxLength(List<String> arr) {
-//         // dp = new Integer[arr.size()];
-//         return concat(arr, 0, "");
-//         // System.out.println(Arrays.toString(dp));
-//         // return dp[0];
+//         // Use depth first search recursion through arr
+//         // building from an initial empty string
+//         return dfs(arr, 0, "");
+//     }
+
+//     private int dfs(List<String> arr, int pos, String res) {    
+//         // Use a set to check res for duplicate characters
+//         Set<Character> resSet = new HashSet<>();
+//         for (char c : res.toCharArray())
+//             resSet.add(c);
+//         if (res.length() != resSet.size())
+//             return 0;
+
+//         // Recurse through each possible next option
+//         // and find the best answer
+//         int best = res.length();
+//         for (int i = pos; i < arr.size(); i++)
+//             best = Math.max(best, dfs(arr, i + 1, res + arr.get(i)));
+//         return best;
 //     }
 // }
-class Solution {
-    public int maxLength(List<String> arr) {
-        // Use depth first search recursion through arr
-        // building from an initial empty string
-        return dfs(arr, 0, "");
-    }
-
-    private int dfs(List<String> arr, int pos, String res) {    
-        // Use a set to check res for duplicate characters
-        Set<Character> resSet = new HashSet<>();
-        for (char c : res.toCharArray())
-            resSet.add(c);
-        if (res.length() != resSet.size())
-            return 0;
-
-        // Recurse through each possible next option
-        // and find the best answer
-        int best = res.length();
-        for (int i = pos; i < arr.size(); i++)
-            best = Math.max(best, dfs(arr, i + 1, res + arr.get(i)));
-        return best;
-    }
-}
