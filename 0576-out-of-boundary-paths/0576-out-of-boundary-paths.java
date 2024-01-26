@@ -16,7 +16,35 @@ class Solution {
         return dp[startRow][startColumn][maxMove] = sum;
     }
     public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
-        dp = new Integer[m][n][maxMove+1];
-        return findPaths_helper(m,n,maxMove,startRow,startColumn);
+        // dp = new Integer[m][n][maxMove+1];
+        // return findPaths_helper(m,n,maxMove,startRow,startColumn);
+        
+        int[][] dp = new int[m][n];
+        dp[startRow][startColumn] = 1;
+        
+        int count = 0;
+        
+        for (int i = 1; i <= maxMove; i++){
+            int[][] temp = new int[m][n];
+            for (int j = 0; j < m; j++){
+                for (int k = 0; k < n; k++){
+                    if (j == 0) 
+                        count = (count + dp[j][k]) % MODULO;
+                    if (j == m-1) 
+                        count = (count + dp[j][k]) % MODULO;
+                    if (k == 0) 
+                        count = (count + dp[j][k]) % MODULO;
+                    if (k == n-1) 
+                        count = (count + dp[j][k]) % MODULO;
+                    
+                    temp[j][k] = (temp[j][k] + ((j > 0) ? dp[j-1][k]: 0))% MODULO;
+                    temp[j][k] = (temp[j][k] + ((j < m-1) ? dp[j+1][k]: 0)) % MODULO;
+                    temp[j][k] = (temp[j][k] + ((k > 0) ? dp[j][k-1]: 0)) % MODULO;
+                    temp[j][k] = (temp[j][k] + ((k < n-1) ? dp[j][k+1]: 0) )% MODULO;
+                }
+            }
+            dp = temp;
+        }
+        return count;
     }
 }
