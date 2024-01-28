@@ -1,19 +1,14 @@
 class Solution {
     public int subarraySum(int[] nums, int k) {
-        int n = nums.length;
-        int[] prefixSum = new int[n+1];
-        prefixSum[0] = 0;
-        for (int i = 0; i < n; i++){
-            prefixSum[i+1] = prefixSum[i] + nums[i];
-        }
-        // System.out.println(Arrays.toString(prefixSum));
+        Map<Integer, Integer> sumOfOccurences = new HashMap<>();
+        int sum = 0;
+        sumOfOccurences.put(0, 1);
         int sol = 0;
-        for (int i = 1; i <= n; i++){
-            for (int j = i; j <= n; j++){
-                // System.out.println("PrefixSum = "+(prefixSum[j] - prefixSum[i-1]));
-                if ((prefixSum[j] - prefixSum[i-1]) == k)
-                    sol++;
-            }
+        for (int i = 0; i < nums.length; i++){
+            sum += nums[i];
+            if (sumOfOccurences.containsKey(sum-k))
+                sol += sumOfOccurences.get(sum-k);
+            sumOfOccurences.put(sum, sumOfOccurences.getOrDefault(sum, 0)+1);
         }
         return sol;
     }
