@@ -16,13 +16,9 @@ class MyQueue {
     }
     
     public int pop() {
-        if (!s2.isEmpty()){
-            total--;
-            int top = s2.pop();
-            return top;
-        }
-        while (!s1.isEmpty()){
-            s2.push(s1.pop());
+        if (s2.isEmpty()) {
+            while (!s1.isEmpty())
+                s2.push(s1.pop());
         }
         total--;
         return s2.pop();
