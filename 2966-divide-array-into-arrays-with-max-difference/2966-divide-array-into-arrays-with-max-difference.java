@@ -8,7 +8,7 @@ class Solution {
         // int k = 0;
         // sol[0][0] = nums[0];
         for (int i = 0; i < nums.length; i++){
-                if (i%3 == 2 && ((nums[i]-nums[i-1]) > k || (nums[i] - nums[i-2]) > k || (nums[i-1] - nums[i-2]) > k)){
+                if (i%3 == 2 && ((nums[i] - nums[i-2]) > k)){
                     return new int[][]{};
                 }
                 // if (i%3 != 0 && (nums[i] - nums[i-1]) > k )
