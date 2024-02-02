@@ -1,27 +1,17 @@
 class Solution {
-    int numOfDigits(int n){
-        int k  = 0;
-        while (n > 0){
-            n /= 10;
-            k++;
-        }
-        return k;
-    }
     public List<Integer> sequentialDigits(int low, int high) {
+        int nLow = String.valueOf(low).length();
+        int nHigh = String.valueOf(high).length();
+        String s = "123456789";
         List<Integer> sol = new ArrayList<>();
-        int size = 0;
-        for (int i = numOfDigits(low); i <= numOfDigits(high); i++){
-            for (int j = 1; j <= 9; j++){
-                int k = j, num = 0;
-                for (size = 0; size < i; size++){
-                    if (num > high || k > 9)
-                        break;
-                    num = num *10 + k;
-                    k++;
-                }
-                if (num>=low && num <= high && size == i)
+        
+        for (int len = nLow; len <= nHigh; len++){
+            for (int right = 0; right < 10 - len; right++){
+                int num = Integer.parseInt(s.substring(right, right+len));
+                if (num >= low && num <= high)
                     sol.add(num);
             }
+            
         }
         return sol;
     }
