@@ -9,42 +9,20 @@ class Node {
 */
 
 class Solution {
-    Node flat;
-    void printList(Node list){
-        while (list != null){
-            System.out.println(list.val);
-            list = list.next;
-        }
-    }
-    void dfs(Node head){
+    Node prev = null;
+    public Node flatten(Node head){
         if (head == null)
-            return;
-        Node newNode = new Node();
-        newNode.val = head.val;
-        newNode.prev = flat;
-        newNode.child = null;
-        flat.next = newNode;
-        // flat.next = head;
-        // head.prev = flat;
-        flat = flat.next;
+            return head;
+        Node nextNode = head.next;
         
-        // System.out.println("head val"+head.val);
-        // printList(flat);
-        if(head.child != null)
-            dfs(head.child);
-        // head.child = null;
+        head.prev = prev;
+        prev = head;
         
-        dfs(head.next);
-    }
-    public Node flatten(Node head) {
-        Node dummy = new Node();
-        flat = dummy;
-        dfs(head);
-        Node h = dummy.next;
-        if (h == null)
-            return h;
-        h.prev = null;
-        h.child = null;
-        return h;
+        head.next = flatten(head.child);
+        head.child = null;
+        
+        prev.next = flatten(nextNode);
+        
+        return head;
     }
 }
