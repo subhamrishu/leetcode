@@ -1,36 +1,29 @@
 class Solution {
     public int compareVersion(String version1, String version2) {
-        String[] v1t = version1.split("\\.");
-        String[] v2t = version2.split("\\.");
-        // System.out.println(Arrays.toString(v1t)+" "+Arrays.toString(v2t));
-        int n = Math.min(v1t.length, v2t.length);
+        char[] v1 = version1.toCharArray();
+        char[] v2 = version2.toCharArray();
+        int m = v1.length, n = v2.length;
+        int i = 0, j = 0;
         
-        for (int i = 0; i < n; i++){
-            int d1 = Integer.parseInt(v1t[i]);
-            int d2 = Integer.parseInt(v2t[i]);
-            // System.out.println(d1+" "+d2);
-            if (d1 == d2) continue;
+        while (i < m || j < n){
             
-            if (d1 < d2) return -1;
+            int a = 0, b = 0;
+            while(i < m && v1[i] != '.'){
+                a += a * 10 + v1[i]-'0';
+                i++;
+            }
+            i++;
             
-            return 1;
-        }
-        if (v1t.length == v2t.length) return 0;
-        
-        else if(v1t.length > v2t.length) {
-            while (n < v1t.length && Integer.parseInt(v1t[n]) == 0){
-                n++;
+            while(j < n && v2[j] != '.'){
+                b += b * 10 + v2[j]-'0';
+                j++;
             }
-            if (n == v1t.length) return 0;
-            return 1;
+            j++;
+            
+            // System.out.println(a+" "+b);
+            if (a < b) return -1;
+            else if (a > b) return 1;
         }
-        else{
-            while (n < v2t.length && Integer.parseInt(v2t[n]) == 0){
-                n++;
-            }
-            if (n == v2t.length) return 0;
-            return -1;
-        }
-        // return -1;
+        return 0;
     }
 }
