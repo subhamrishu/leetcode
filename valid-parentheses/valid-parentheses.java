@@ -9,11 +9,7 @@ class Solution {
                 if (stack.size() == 0) return false;
                 char top = stack.pop();
                 
-                if (ch == ')' && top != '('){
-                    return false;
-                }else if (ch == '}' && top != '{'){
-                    return false;
-                }else if (ch == ']' && top != '['){
+                if ((ch == ')' && top != '(') || (ch == '}' && top != '{') || (ch == ']' && top != '[')){
                     return false;
                 }
             }
